@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uporabniki-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uporabniki
+  template:
+    metadata:
+      labels:
+        app: uporabniki
+    spec:
+      containers:
+        - image: prporso/uporabniki:2022-10-27-17-33-13
+          name: uporabniki
+          env:
+            - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
+              value: jdbc:postgresql://fanny.db.elephantsql.com:5432/zqjqqtrd
+            - name: KUMULUZEE_DATASOURCES0_USERNAME
+              value: zqjqqtrd
+            - name: KUMULUZEE_DATASOURCES0_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pg-pass
+                  key: KUMULUZEE_DATASOURCES0_PASSWORD
+          ports:
+            - containerPort: 8080
+              name: server
+              protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: uporabniki
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: server
+  selector:
+    app: uporabniki
