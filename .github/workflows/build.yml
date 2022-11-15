@@ -1,4 +1,4 @@
-name: build with Maven and package as Docker image
+name: Build with Maven and package as Docker image.
 
 on:
   push:
@@ -19,11 +19,11 @@ jobs:
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots package
       - name: Rename artifact
-        run: cp api/target/uporabniki-api-*.jar uporabniki-api-${{github.ref}}.jar
+        run: ver=${{github.ref}} && cp api/target/uporabniki-api-*.jar uporabniki-api-${ver##*/}.jar
       - name: Create Release
         uses: ncipollo/release-action@v1.11.0
         with:
           artifactErrorsFailBuild: true
-          artifacts: 'uporabniki-api-{{github.ref}}.jar'
+          artifacts: 'uporabniki-api-*.jar'
           body: Automated Release by GitHub Action CI.
           generateReleaseNotes: true
