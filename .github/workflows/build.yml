@@ -1,4 +1,4 @@
-name: Build with Maven and package as Docker image.
+name: Build with Maven and package as Docker image
 
 on:
   push:
@@ -19,7 +19,12 @@ jobs:
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots package
       - name: Rename artifact
-        run: ver=${{github.ref}} && cp api/target/uporabniki-api-*.jar uporabniki-api-${ver##*/}.jar
+        run: cp api/target/uporabniki-api-*.jar uporabniki-api-${{github.ref_name}}.jar
+      - name: Create artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: uporabniki-api
+          path: 'uporabniki-api-*.jar'
       - name: Create Release
         uses: ncipollo/release-action@v1.11.0
         with:
@@ -27,3 +32,26 @@ jobs:
           artifacts: 'uporabniki-api-*.jar'
           body: Automated Release by GitHub Action CI.
           generateReleaseNotes: true
+  image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - uses: actions/download-artifact@master
+        with:
+          name: uporabniki-api
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          push: true
+          tags: latest,${{github.ref_name}}
