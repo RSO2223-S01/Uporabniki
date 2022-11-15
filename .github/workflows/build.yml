@@ -19,7 +19,7 @@ jobs:
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots package
       - name: Rename artifact
-        run: cp api/target/uporabniki-api-*.jar uporabniki-api-{{github.ref}}.jar
+        run: cp api/target/uporabniki-api-*.jar uporabniki-api-${{github.ref}}.jar
       - name: Create Release
         uses: ncipollo/release-action@v1.11.0
         with:
