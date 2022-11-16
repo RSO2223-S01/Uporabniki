@@ -3,7 +3,7 @@ name: Build with Maven and package as Docker image
 on:
   push:
     tags:
-      - '*'
+      - 'v*'
 
 jobs:
   build:
@@ -51,9 +51,16 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: rso/uporabniki-api
+          tags: type=semver,pattern={{version}}
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
           context: .
           push: true
-          tags: user/app:latest,user/app:${{github.ref_name}}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
