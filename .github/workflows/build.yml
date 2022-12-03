@@ -2,6 +2,8 @@ name: Build with Maven and package as Docker image
 
 on:
   push:
+    branches:
+      - 'master'
     tags:
       - 'v*'
 
@@ -25,6 +27,7 @@ jobs:
           name: uporabniki-api
           path: 'uporabniki-api-*.jar'
       - name: Create Release
+        if: ${{ startsWith( github.ref_name, 'v') }}
         uses: ncipollo/release-action@v1.11.0
         with:
           artifactErrorsFailBuild: true
@@ -54,7 +57,9 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ghcr.io/${{ github.repository }}
-          tags: type=semver,pattern={{version}}
+          tags: |
+            type=ref,event=branch
+            type=semver,pattern={{version}}
           flavor: latest=true
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
