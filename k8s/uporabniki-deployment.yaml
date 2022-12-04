@@ -13,20 +13,20 @@ spec:
         app: uporabniki
     spec:
       containers:
-        - image: prporso/uporabniki:2022-10-27-17-33-13
+        - image: rso2223s01/uporabniki:latest
           name: uporabniki
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
-              value: jdbc:postgresql://fanny.db.elephantsql.com:5432/zqjqqtrd
+              value: jdbc:postgresql://peanut.db.elephantsql.com:5432/rozavelh
             - name: KUMULUZEE_DATASOURCES0_USERNAME
-              value: zqjqqtrd
+              value: rozavelh
             - name: KUMULUZEE_DATASOURCES0_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: pg-pass
+                  name: pg-uporabniki-pass
                   key: KUMULUZEE_DATASOURCES0_PASSWORD
           ports:
-            - containerPort: 8080
+            - containerPort: 8081
               name: server
               protocol: TCP
 
@@ -35,11 +35,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: uporabniki
+  name: dostavi-ga
 spec:
   type: LoadBalancer
   ports:
-    - port: 8080
+    - port: 8081
       protocol: TCP
       targetPort: server
   selector:
