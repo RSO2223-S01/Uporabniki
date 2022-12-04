@@ -13,5 +13,17 @@ kumuluzee:
       username: dbuser
       password: postgres
       max-pool-size: 20
+  openapi-mp:
+    enabled: true
+    servlet:
+      mapping: /openapi-spec
+    scan:
+      packages: si.fri.rso.skupina1.uporabniki.api.v1
+    servers: http://localhost:8080/v1
+    ui:
+      mapping: /openapi
+      server-auto-config:
+        enabled: false
+        original-uri-check: false
 rest-properties:
   maintenance-mode: false
