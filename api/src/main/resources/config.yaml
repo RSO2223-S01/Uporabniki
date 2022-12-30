@@ -25,5 +25,16 @@ kumuluzee:
       server-auto-config:
         enabled: false
         original-uri-check: false
+  health:
+    checks:
+      data-source-health-check:
+        type: liveness
+        jndi-name: jdbc/UsersDS
+      http-health-check:
+        - connection-url: http://localhost:8080/v1/users
+          type: readyness
+        - connection-url: http://localhost:8080/openapi
+          type: readyness
 rest-properties:
   maintenance-mode: false
+  broken: false
