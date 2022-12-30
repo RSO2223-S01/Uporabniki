@@ -80,6 +80,18 @@
 			</dependency>
 
 			<dependency>
+				<groupId>com.kumuluz.ee.health</groupId>
+				<artifactId>kumuluzee-health</artifactId>
+				<version>${kumuluzee-health.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.kumuluz.ee.metrics</groupId>
+				<artifactId>kumuluzee-metrics-core</artifactId>
+				<version>${kumuluzee-metrics.version}</version>
+			</dependency>
+
+			<dependency>
 				<groupId>si.fri.rso.skupina1</groupId>
 				<artifactId>uporabniki-api</artifactId>
 				<version>${project.version}</version>
@@ -93,16 +105,6 @@
 				<groupId>si.fri.rso.skupina1</groupId>
 				<artifactId>uporabniki-services</artifactId>
 				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.kumuluz.ee.health</groupId>
-				<artifactId>kumuluzee-health</artifactId>
-				<version>${kumuluzee-health.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.kumuluz.ee.metrics</groupId>
-				<artifactId>kumuluzee-metrics-core</artifactId>
-				<version>${kumuluzee-metrics.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>si.fri.rso.skupina1</groupId>

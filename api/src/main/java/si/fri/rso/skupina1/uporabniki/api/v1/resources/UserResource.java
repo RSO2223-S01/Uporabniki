@@ -9,6 +9,8 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.eclipse.microprofile.metrics.annotation.Metered;
+import org.eclipse.microprofile.metrics.annotation.Counted;
 import si.fri.rso.skupina1.uporabniki.lib.User;
 import si.fri.rso.skupina1.uporabniki.services.beans.UserBean;
 
@@ -36,6 +38,8 @@ public class UserResource {
 	@Context
 	protected UriInfo uriInfo;
 
+	@Counted(name = "getUsers_total")
+	@Metered(name = "getUsers_rate")
 	@Operation(description = "Get all users.", summary = "Get users")
 	@APIResponses({
 			@APIResponse(responseCode = "200", description = "List of users", content = @Content(schema = @Schema(implementation = User.class, type = SchemaType.ARRAY)), headers = {
@@ -48,6 +52,8 @@ public class UserResource {
 		return Response.status(Response.Status.OK).entity(users).build();
 	}
 
+	@Counted(name = "getUser_total")
+	@Metered(name = "getUser_rate")
 	@Operation(description = "Get metadata for an image.", summary = "Get metadata for an image")
 	@APIResponses({
 			@APIResponse(responseCode = "200", description = "Image metadata", content = @Content(schema = @Schema(implementation = User.class))) })
@@ -65,6 +71,8 @@ public class UserResource {
 		return Response.status(Response.Status.OK).entity(user).build();
 	}
 
+	@Counted(name = "createUser_total")
+	@Metered(name = "createUser_rate")
 	@Operation(description = "Add user.", summary = "Add user")
 	@APIResponses({
 			@APIResponse(responseCode = "201", description = "User successfully added."),
@@ -86,6 +94,8 @@ public class UserResource {
 
 	}
 
+	@Counted(name = "putUser_total")
+	@Metered(name = "putUser_rate")
 	@Operation(description = "Update data for an user.", summary = "Update user")
 	@APIResponses({
 			@APIResponse(responseCode = "200", description = "User successfully updated.")
@@ -105,6 +115,8 @@ public class UserResource {
 		return Response.status(Response.Status.NOT_MODIFIED).build();
 	}
 
+	@Counted(name = "deleteUser_total")
+	@Metered(name = "deleteUser_rate")
 	@Operation(description = "Delete user.", summary = "Delete user")
 	@APIResponses({
 			@APIResponse(responseCode = "200", description = "User successfully deleted."),
