@@ -6,13 +6,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.UriInfo;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 
+import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
+import org.eclipse.microprofile.faulttolerance.Fallback;
+import org.eclipse.microprofile.faulttolerance.Timeout;
 import si.fri.rso.skupina1.uporabniki.lib.User;
 import si.fri.rso.skupina1.uporabniki.models.converters.UserConverter;
 import si.fri.rso.skupina1.uporabniki.models.entities.UserEntity;
@@ -25,7 +31,15 @@ public class UserBean {
 	@Inject
 	private EntityManager em;
 
+
+	@Timeout(value = 2, unit = ChronoUnit.SECONDS)
+	@CircuitBreaker(requestVolumeThreshold = 3)
+	@Fallback(fallbackMethod = "getUsersFallback")
 	public List<User> getUsers() {
+
+		if (Boolean.parseBoolean(ConfigurationUtil.getInstance().get("rest-properties.broken").get())) {
+			int a = 1/0;
+		}
 
 		TypedQuery<UserEntity> query = em.createNamedQuery(
 				"UserEntity.getAll", UserEntity.class);
@@ -34,6 +48,10 @@ public class UserBean {
 
 		return resultList.stream().map(UserConverter::toDto).collect(Collectors.toList());
 
+	}
+
+	public List<User> getUsersFallback() {
+		return new ArrayList<>();
 	}
 
 	public List<User> getUserFilter(UriInfo uriInfo) {
