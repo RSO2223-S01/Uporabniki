@@ -30,6 +30,7 @@
 		<kumuluzee-health.version>2.4.4</kumuluzee-health.version>
 		<kumuluzee-metrics.version>2.3.0</kumuluzee-metrics.version>
 		<kumuluzee-logs.version>1.4.6</kumuluzee-logs.version>
+		<kumuluzee-graphql.version>1.1.0</kumuluzee-graphql.version>
 		<postgresql.version>42.5.0</postgresql.version>
 	</properties>
 
@@ -117,6 +118,16 @@
 				<groupId>si.fri.rso.skupina1</groupId>
 				<artifactId>uporabniki-lib</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.kumuluz.ee.graphql</groupId>
+				<artifactId>kumuluzee-graphql</artifactId>
+				<version>${kumuluzee-graphql.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.kumuluz.ee.graphql</groupId>
+				<artifactId>kumuluzee-graphql-ui</artifactId>
+				<version>${kumuluzee-graphql.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
