@@ -12,8 +12,18 @@ public class RestProperties {
     @ConfigValue(watch = true)
     private Boolean maintenanceMode;
 
-    @ConfigValue(watch = true)
     private Boolean broken;
+
+    @ConfigValue(watch = true)
+    private Boolean fault;
+
+    public Boolean getFault() {
+        return fault;
+    }
+
+    public void setFault(Boolean fault) {
+        this.fault = fault;
+    }
 
     public Boolean getMaintenanceMode() {
         return this.maintenanceMode;

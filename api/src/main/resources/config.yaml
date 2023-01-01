@@ -58,3 +58,4 @@ kumuluzee:
 rest-properties:
   maintenance-mode: false
   broken: false
+  fault: false

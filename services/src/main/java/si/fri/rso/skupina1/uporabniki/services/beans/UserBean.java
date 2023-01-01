@@ -22,6 +22,7 @@ import org.eclipse.microprofile.faulttolerance.Timeout;
 import si.fri.rso.skupina1.uporabniki.lib.User;
 import si.fri.rso.skupina1.uporabniki.models.converters.UserConverter;
 import si.fri.rso.skupina1.uporabniki.models.entities.UserEntity;
+import si.fri.rso.skupina1.uporabniki.services.config.RestProperties;
 
 @RequestScoped
 public class UserBean {
@@ -31,13 +32,15 @@ public class UserBean {
 	@Inject
 	private EntityManager em;
 
+	@Inject
+	private RestProperties restProperties;
+
 
 	@Timeout(value = 2, unit = ChronoUnit.SECONDS)
-	@CircuitBreaker(requestVolumeThreshold = 3)
-	@Fallback(fallbackMethod = "getUsersFallback")
+	@CircuitBreaker(requestVolumeThreshold = 5, successThreshold = 2, failureRatio = 0.5)
 	public List<User> getUsers() {
 
-		if (Boolean.parseBoolean(ConfigurationUtil.getInstance().get("rest-properties.broken").get())) {
+		if (restProperties.getFault()) {
 			int a = 1/0;
 		}
 
@@ -50,11 +53,17 @@ public class UserBean {
 
 	}
 
-	public List<User> getUsersFallback() {
+
+	public List<User> getUsersFallback(UriInfo uriInfo) {
 		return new ArrayList<>();
 	}
 
+	@Fallback(fallbackMethod = "getUsersFallback")
 	public List<User> getUserFilter(UriInfo uriInfo) {
+
+		if (restProperties.getFault()) {
+			int a = 1/0;
+		}
 
 		QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).defaultOffset(0)
 				.build();
