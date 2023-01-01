@@ -9,7 +9,7 @@ import org.eclipse.microprofile.openapi.annotations.info.Info;
 import org.eclipse.microprofile.openapi.annotations.info.License;
 import org.eclipse.microprofile.openapi.annotations.servers.Server;
 
-@OpenAPIDefinition(info = @Info(title = "Image catalog API", version = "v1", contact = @Contact(email = "aa2068@student.uni-lj.si"), license = @License(name = "dev"), description = "API for delivery app users."), servers = @Server(url = "http://localhost:8080/"))
+@OpenAPIDefinition(info = @Info(title = "Users API", version = "v1", contact = @Contact(email = "aa2068@student.uni-lj.si"), license = @License(name = "dev"), description = "API for delivery app users."), servers = @Server(url = "http://localhost:8080/"))
 @ApplicationPath("/v1")
 public class UserApplication extends Application {
 

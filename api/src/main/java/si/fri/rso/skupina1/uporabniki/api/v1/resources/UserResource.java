@@ -56,9 +56,9 @@ public class UserResource {
 
 	@Counted(name = "getUser_total")
 	@Metered(name = "getUser_rate")
-	@Operation(description = "Get metadata for an image.", summary = "Get metadata for an image")
+	@Operation(description = "Get user.", summary = "Get user")
 	@APIResponses({
-			@APIResponse(responseCode = "200", description = "Image metadata", content = @Content(schema = @Schema(implementation = User.class))) })
+			@APIResponse(responseCode = "200", description = "User", content = @Content(schema = @Schema(implementation = User.class))) })
 	@GET
 	@Path("/{userId}")
 	public Response getUser(
