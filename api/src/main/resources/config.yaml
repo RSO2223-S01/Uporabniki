@@ -20,7 +20,7 @@ kumuluzee:
       mapping: /openapi-spec
     scan:
       packages: si.fri.rso.skupina1.uporabniki.api.v1
-    servers: http://localhost:8080/v1
+    servers: http://localhost:8080
     ui:
       mapping: /openapi
       server-auto-config:

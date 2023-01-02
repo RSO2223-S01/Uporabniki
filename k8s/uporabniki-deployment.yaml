@@ -16,6 +16,12 @@ spec:
         - image: rso2223s01/uporabniki:latest
           name: uporabniki
           env:
+            - name: KUMULUZEE_SERVER_CONTEXTPATH
+              value: /users
+            - name: KUMULUZEE_HEALTH_CHECKS_HTTPHEALTHCHECK0_CONNECTIONURL
+              value: http://localhost:8080/users/v1/users
+            - name: KUMULUZEE_HEALTH_CHECKS_HTTPHEALTHCHECK1_CONNECTIONURL
+              value: http://localhost:8080/users/openapi
             - name: KUMULUZEE_CONFIG_CONSUL_AGENT
               value: http://consul:8500
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
@@ -33,13 +39,13 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /health/live
+              path: /users/health/live
               port: server
             initialDelaySeconds: 20
             periodSeconds: 3
           readinessProbe:
               httpGet:
-                path: /health/ready
+                path: /users/health/ready
                 port: server
               initialDelaySeconds: 20
               periodSeconds: 3
